@@ -1,16 +1,10 @@
 <html>
 
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
-  
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-<link rel="stylesheet" href="assets/css/login.css">
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
-      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<!--LOGIN -->
+   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+   <link href="assets/css/login.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+
+   
 <body style="display: none;">
     <div class="container">
         <div class="row">
@@ -32,11 +26,11 @@
                      </div>
                            <div class="form-group">
                               <label for="exampleInputEmail1">Email address</label>
-                              <input type="email" name="email"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                              <input type="email" autocomplete="off" name="email"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                            </div>
                            <div class="form-group">
                               <label for="exampleInputEmail1">Password</label>
-                              <input type="password" name="password"   class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                              <input type="password"autocomplete="off" name="password"   class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
                            </div>
                            
                            <div class="col-md-12 text-center ">
@@ -60,18 +54,19 @@
                            </div>
                         </div>
                         <form id="registration_form">
+                           <div class="form-group">
                         <label >Choose account:</label>
                         <select id="account">
-                        <option value="admin">Admin</option>
                         <option value="user">User</option>
-                        </select>                           
+                        </select>     
+                        </div>                      
                            <div class="form-group">
                               <label for="exampleInputEmail1">Email address</label>
-                              <input type="email" name="Remail"  class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
+                              <input type="email" name="Remail" autocomplete="off" class="form-control"  aria-describedby="emailHelp" placeholder="Enter email">
                            </div>
                            <div class="form-group">
                               <label for="exampleInputEmail1">Password</label>
-                              <input type="password" name="Rpassword"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                              <input type="password" name="Rpassword" autocomplete="off" class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
                            </div>
                            <div class="col-md-12 text-center mb-3">
                               <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Sign up</button>
@@ -89,11 +84,17 @@
       </div>   
          
 </body>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
 <script src="assets/js/login.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 
+
 </html>
 <script>
+
+
 
 var user = window.localStorage.getItem("user");
   if (user) {
@@ -154,7 +155,6 @@ $("#registration_form").validate({
 submitHandler: function (form) {
 
     var user = {
-        type:$('#login_form select[id="accounts"]').val(),
         email: $('#registration_form input[type="email"]').val(),
         password: $('#registration_form input[type="password"]').val()
 
@@ -168,16 +168,6 @@ submitHandler: function (form) {
         toastr.error(error.responseText);
     });
 
-    }else if (document.getElementById('account').value == "admin") {
-      console.log("jhn");
-      $.post("rest/AdminRegister",user).done(function(data)
-    {
-       
-        toastr.success("You are registered, Please login")
-    }).fail(function(error)
-    {
-        toastr.error(error.responseText);
-    })
     }
     
     }

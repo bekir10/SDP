@@ -1,0 +1,254 @@
+<html>
+<style>
+    .error{
+      color: red;
+    }
+    </style>
+<body>
+   
+<section class="user_ticketsPG">
+    <div class="section-title ">
+        <h2 style="margin-left: 50px;">Unpaid Tickets</h2>
+      </div>
+
+    <input type="text" id="myInput" onkeyup="myFunction()"  placeholder="Search for tickets.." title="Type in a name">
+    <label >By:</label>
+                        <select  id="search">
+                        <option value="name">Name</option>
+                        <option value="surname">Surname</option>
+                        <option value="plate">License Plate</option>
+                        <option value="price">Price</option>
+
+                        </select>
+
+    <div class="modal fade" id="payment_modal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" >
+    
+          <form id="pay_ticket" >
+            <div class="modal-header">
+              <h4 class="modal-title">Payment</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <label>Id:</label>
+              <input type="text" id="id" name="id" class="form-control"readonly ></input>
+            </div>
+                <div class="form-group">
+                  <label>First Name:</label>
+                  <input type="text"  name="pay_name" required class="form-control"readonly></input>
+                </div>
+                <div>
+                  <label >Last Name:</label>
+                  <input type="text"  name="pay_last_name" required class="form-control"readonly></input>
+                </div>
+                <div>
+                  <label >Type:</label>
+                  <input type="text"   name="pay_type_of" required class="form-control"readonly></input>
+                </div>
+                <div>
+                  <label >License Plate:</label>
+                  <input type="text"  name="pay_car_plate" required class="form-control"readonly></input>
+                </div>
+                <div>
+                    <label >Credit Card Number:</label>
+                    <input type="number"  autocomplete="off" name="pay_card"  class="form-control" ></input>
+                  </div>
+                <div>
+                  <label >Price:</label>
+                  <input type="text" name="pay_ticket_price"required class="form-control" readonly></input>
+                </div>
+              </div>
+              <div class="error"><span></span></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" id="close_button" data-dismiss="modal">Close</button>
+              <button onclick="delete_payed_ticket()" type="button" class="btn btn-success">Payment</button>
+            </div>
+              
+          </form>
+  
+          </div>
+          </div>
+      </div>
+    
+<br>
+<br>    
+    <table class="table" id="ticket_table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Type</th>
+            <th scope="col">License plate</th>
+            <th scope="col">Price</th>
+        
+          </tr>
+        </thead>
+        <tbody id="ticket_content">
+        
+        </tbody>
+      </table>
+  
+    </section>
+    
+</html>
+
+<script>
+   
+ 
+   
+
+  /*----------------------------search function ------------------------ */
+
+function myFunction() {
+    var value = document.getElementById("search").value ;
+    var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("ticket_table");
+  tr = table.getElementsByTagName("tr");
+
+    if(value == "name"){
+
+
+for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+}else if(value == "surname"){
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[2];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+}else if(value == "plate"){
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[4];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+}else if(value == "price"){
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[5];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+}
+}
+/*----------------------------get payed tickets ------------------------ */
+
+
+
+/*----------------------------get tickets ------------------------ */
+
+get_tickets()
+
+function get_tickets()
+    {
+        $.get("rest/tickets",function(data) 
+        {
+            var html="";
+            for(var i = 0; i < data.length; i++)
+            {
+                html+='<tr><td>' + data[i].id + '</td>';
+                html+='<td>'  + data[i].Fname +'</td>';
+                html+='<td>' + data[i].Lname + '</td>';
+                html+='<td>' + data[i].type + '</td>';
+                html+='<td>' + data[i].plate + '</td>';
+                html+='<td>' + data[i].price + '</td>';
+                
+                html+='<td><button type="button" class="btn btn-danger" onclick="open_ticket_modal('+data[i].id+');">Pay</button></td></tr>';
+               
+
+            }
+             $("#ticket_content").html(html);
+             
+
+            
+        })
+    };
+
+    function open_ticket_modal(id){
+        $("#payment_modal").modal("toggle");
+
+        $.get("rest/info&edit?id="+id, function(data) 
+        {
+            
+            $("#payment_modal input[name=id]").val(data[0].id);
+            $("#payment_modal input[name=pay_name]").val(data[0].Fname);
+            $("#payment_modal input[name=pay_last_name]").val(data[0].Lname);
+            $("#payment_modal input[name=pay_type_of]").val(data[0].type);
+            $("#payment_modal input[name=pay_car_plate]").val(data[0].plate);
+            $("#payment_modal input[name=pay_ticket_price]").val(data[0].price);
+
+           
+
+
+        })
+    }
+
+    $("#pay_ticket").validate({
+        rules: {
+           
+           pay_card: {
+              required: true,
+              minlength: 10,
+              maxlength: 19
+            }
+            
+          },
+          messages: {
+            
+            pay_card: {
+              minlength: 'Password must be at least 8 characters long'
+            }
+          }
+        
+    })
+
+    function delete_payed_ticket(){
+       var pay = document.getElementById("id");
+       var id= pay.value;
+        
+        $.ajax({
+           url:"rest/ticket/"+id,
+           method:"DELETE",
+           success: function(result){
+               toastr.success("Ticket Payed");
+               $("#payment_modal ").modal("toggle");
+               get_tickets();
+           },error:function(){
+               toastr.error("Not Payed");
+           }
+       })
+
+      
+    }
+
+</script>

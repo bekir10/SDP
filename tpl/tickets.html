@@ -1,0 +1,395 @@
+<html>
+<style>
+    .error{
+      color: red;
+    }
+    </style>
+<body>
+    
+
+<section class="tickets">
+<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ticket_modal">Add Ticket</button>
+  
+      <!-- Admin adding ticket -->
+    <div class="modal fade" id="ticket_modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" >
+  
+        <form id="add_ticket" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <input type="text" id="id" name="id" class="form-control" hidden></input>
+
+              <div class="form-group">
+                <label>First Name:</label>
+                <input type="text" autocomplete="off" name="first_name" required class="form-control"></input>
+              </div>
+              <div>
+                <label >Last Name:</label>
+                <input type="text" autocomplete="off" name="last_name" required class="form-control"></input>
+              </div>
+              <div>
+                <label >Type:</label>
+                <input type="text" autocomplete="off"  name="type_of" required class="form-control"></input>
+              </div>
+              <div>
+                <label >Licence Plate:</label>
+                <input type="text" autocomplete="off" name="car_plate" required class="form-control"></input>
+              </div>
+              <div>
+                <label >Price:</label>
+                <input type="text"autocomplete="off" name="ticket_price"required class="form-control"></input>
+              </div>
+            </div>
+            <div class="error"><span></span></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="close_button" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </div>
+            
+        </form>
+
+        </div>
+        </div>
+    </div>
+
+     <!-- Admin editing ticket -->
+
+
+    <div class="modal fade" id="edit_modal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" >
+    
+          <form id="edit_form" >
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="id" name="id" class="form-control" ></input>
+
+
+                <div class="form-group">
+                  <label>First Name:</label>
+                  <input type="text"autocomplete="off"  name="edit_name" required class="form-control"></input>
+                </div>
+                <div>
+                  <label >Last Name:</label>
+                  <input type="text"autocomplete="off"  name="edit_surname" required class="form-control"></input>
+                </div>
+                <div>
+                  <label >Type:</label>
+                  <input type="text" autocomplete="off"  name="edit_type" required class="form-control"></input>
+                </div>
+                <div>
+                  <label >Licence Plate:</label>
+                  <input type="text" autocomplete="off" name="edit_plate" required class="form-control"></input>
+                </div>
+                <div>
+                  <label >Price:</label>
+                  <input type="text"autocomplete="off" name="edit_price"required class="form-control"></input>
+                </div>
+              </div>
+              <div class="error"><span></span></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" id="close_button" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+              
+          </form>
+  
+          </div>
+          </div>
+      </div>
+
+
+       <!-- Admin adding admin -->
+       <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#admin_modal">Add Admin</button>
+
+
+      <div class="modal fade" id="admin_modal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" >
+    
+          <form id="add_admin" >
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" autocomplete="off" name="email" required class="form-control"></input>
+                </div>
+                <div>
+                  <label >Password:</label>
+                  <input type="password" autocomplete="off" name="password" required class="form-control"></input>
+                </div>
+               
+              </div>
+              <div class="error"><span></span></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" id="close_button" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+              
+          </form>
+  
+          </div>
+          </div>
+      </div>
+
+      <button type="button" class="btn btn-dark" onclick="get_tickets()" >Tickets Table</button>
+      <button type="button" class="btn btn-dark" onclick="get_admins()" >Admins Table</button>
+
+
+    <br>
+    <br>
+              <!-- ticket table-->
+
+    <table class="table" id="ticket_table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Type</th>
+            <th scope="col">Licence plate</th>
+            <th scope="col">Price</th>
+        
+          </tr>
+        </thead>
+        <tbody id="ticket_content">
+        
+        </tbody>
+      </table>
+
+
+      <!-- admin table-->
+
+      <table class="table" id="admin_table" style="display: none;" >
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Password</th>
+        
+          </tr>
+        </thead>
+        <tbody id="admin_content">
+        
+        </tbody>
+      </table>
+
+
+          <!-- info modal-->
+
+      <div id="info_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>User</h3>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+              <p id="info_name">
+              
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+
+      
+</section>
+
+</body>
+</html>
+<script>
+
+      /*----------------------------add admin ------------------------ */
+
+
+$("#add_admin").validate({
+
+submitHandler: function (form) {
+
+    $.post("rest/AdminRegister", $("#add_admin").serialize()).done(function(){ //adding ticket
+            toastr.success("Admin added succeffuly");
+            $('#admin_modal form :input').val("");
+              $("#admin_modal").modal("toggle");
+            get_admins();
+        }).fail(function(){
+            toastr.error("Admin not added"); 
+        })
+  
+
+    
+      }
+     
+
+   
+   
+})
+/*----------------------------add ticket ------------------------ */
+
+
+  $("#add_ticket").validate({
+
+submitHandler: function (form) {
+
+    $.post("rest/ticket", $("#add_ticket").serialize()).done(function(){ //adding ticket
+            toastr.success("Student added succeffuly");
+            $('#ticket_modal form :input').val("");
+              $("#ticket_modal").modal("toggle");
+            get_tickets();
+        }).fail(function(){
+            toastr.error("Ticket not added"); 
+        })
+  
+
+    
+      }
+     
+
+   
+   
+})
+/*----------------------------get admins ------------------------ */
+
+
+function get_admins()
+    {
+        $.get("rest/admins",function(data) 
+        {
+            var html="";
+            for(var i = 0; i < data.length; i++)
+            {
+                html+='<tr><td>' + data[i].id + '</td>';
+                html+='<td>'  + data[i].email +'</td>';
+                html+='<td>' + data[i].password + '</td>';
+               
+                
+                
+
+            }
+             $("#admin_content").html(html);
+             $("#ticket_table").hide();
+             $("#admin_table").show();
+            
+        })
+    };
+
+
+/*----------------------------get tickets ------------------------ */
+function get_tickets()
+    {
+        $.get("rest/tickets",function(data) 
+        {
+            var html="";
+            for(var i = 0; i < data.length; i++)
+            {
+                html+='<tr><td>' + data[i].id + '</td>';
+                html+='<td>'  + data[i].Fname +'</td>';
+                html+='<td>' + data[i].Lname + '</td>';
+                html+='<td>' + data[i].type + '</td>';
+                html+='<td>' + data[i].plate + '</td>';
+                html+='<td>' + data[i].price + '</td>';
+                
+                html+='<td><button type="button" class="btn btn-info" onclick="open_edit_modal('+data[i].id+');">Edit</button></td>';
+                html+='<td><button type="button" class="btn btn-info" onclick="get_ticket('+data[i].id+');">Info</button></td>';
+                html+='<td><button type="button" class="btn btn-danger" onclick="delete_ticket('+data[i].id+');">Delete</button></td></tr>';
+
+            }
+             $("#ticket_content").html(html);
+             $("#admin_table").hide();
+             $("#ticket_table").show();
+
+            
+        })
+    };
+
+/*----------------------------info button ------------------------ */
+
+ 
+    function get_ticket(id)
+    {
+        $.get("rest/info&edit?id="+id, function(data) 
+        {
+          
+          console.log(data);
+            $("#info_modal ").modal("toggle");
+            $("#info_modal p").html("Name: "+"<b>"+ data[0].Fname+"</b>"+"<br>"+"Surname: "+"<b>"+ data[0].Lname+"</b>"+"<br>"+"Type: "+"<b>"+ data[0].type+"</b>"
+            +"<br>"+" Licence Plate: "+"<b>"+ data[0].plate+"</b>"+"<br>"+" Price: "+"<b>"+ data[0].price+"</b>");
+        })
+    }
+
+/*----------------------------delete button ------------------------ */
+
+    function delete_ticket(id) 
+    {
+       $.ajax({
+           url:"rest/ticket/"+id,
+           method:"DELETE",
+           success: function(result){
+               toastr.success("deleted");
+               get_tickets();
+           },error:function(){
+               toastr.error("Not deleted");
+           }
+       })
+        
+    }
+
+/*----------------------------edit button ------------------------ */
+
+    function open_edit_modal(id)
+     {
+            $("#edit_modal").modal("toggle");
+            $.get("rest/info&edit?id="+id, function(data) //show data in edit modal
+        {
+            
+            $("#edit_form input[name=edit_name]").val(data[0].Fname);
+            $("#edit_form input[name=edit_surname]").val(data[0].Lname);
+            $("#edit_form input[name=edit_type]").val(data[0].type);
+            $("#edit_form input[name=edit_plate]").val(data[0].plate);
+            $("#edit_form input[name=edit_price]").val(data[0].price);
+            $("#edit_form input[name=id]").val(data[0].id);
+
+
+        })
+
+        /*----------------------------submit update button ------------------------ */
+
+        $("#edit_form").validate({
+
+         submitHandler: function (form) {
+
+    
+
+        $.post("rest/update", $("#edit_form").serialize()).done(function () { //update ticket
+         toastr.success("Student is updated");
+          $("#edit_modal").modal("toggle");
+         get_tickets();
+          }).fail(function () {
+           toastr.error("Student is not updated");
+         })
+
+}});
+        
+        }
+          
+        
+
+    </script>

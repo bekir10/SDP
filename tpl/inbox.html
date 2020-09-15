@@ -1,0 +1,49 @@
+<html>
+    <body>
+        
+        <section class="inbox">
+            <div class="section-title ">
+                <h2 style="margin-left: 50px;">Messages</h2>
+              </div>
+
+                 <!-- messages table -->
+                <table class="table" id="messages_table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Message</th>
+                        
+                    
+                      </tr>
+                    </thead>
+                    <tbody id="message_content">
+                    
+                    </tbody>
+                  </table>
+                
+    </section>
+    </body>
+</html>
+
+<script>
+    var n = sessionStorage.getItem("msg");
+    var msgs = JSON.parse(n);
+
+
+            var html=""
+
+           
+                html+='<tr><td>' + msgs.name + '</td>';
+                html+='<td>'  + msgs.email +'</td>';
+                html+='<td>' + msgs.subject + '</td>';
+                html+='<td>' + msgs.message + '</td>';
+               
+                
+               
+
+            
+             $("#message_content").html(html);
+    
+</script>

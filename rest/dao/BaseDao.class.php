@@ -21,8 +21,26 @@ class BaseDao {
     
     }
 
+
+    public function execute($entity, $query){
+        try {
+          $stmt = $this->pdo->prepare($query);
+          if ($entity){
+            foreach($entity as $key => $value){
+              $stmt->bindValue($key, $value);
+            }
+          }
+          $stmt->execute();
+          return $stmt;
+        } catch (PDOException $e) {
+          throw $e;
+        }
+      }
+
+      
     protected function execute_insert($entity)
     {
+        
 
         //$entity is associative array storage of object key/value storage
         // set the PDO error mode to exception
@@ -41,9 +59,14 @@ class BaseDao {
             $stmt->execute($entity);
             $entity["id"] = $this->pdo->lastInsertId();
             return $entity;
+            
     }
 
     
+    public function update($entity,$query)
+    {
+        $this->execute($entity,$query);
+    }
 
     public function add($entity)
     {
