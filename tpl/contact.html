@@ -1,4 +1,7 @@
-<section  class="contact" style="display: none;">
+<body >
+  
+
+<section  class="contact" >
     <div id="contact_modal" class="container">
 
       <div class="section-title">
@@ -27,7 +30,7 @@
               <p>+1 5589 55488 55s</p>
             </div>
 
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11515.194703213443!2d18.31400119049073!3d43.81853520513855!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6f97362d8c61c461!2sInternational%20Burch%20University!5e0!3m2!1sen!2sba!4v1600152990933!5m2!1sen!2sba" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>" frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11515.194703213443!2d18.31400119049073!3d43.81853520513855!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6f97362d8c61c461!2sInternational%20Burch%20University!5e0!3m2!1sen!2sba!4v1600152990933!5m2!1sen!2sba" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
           </div>
 
         </div>
@@ -35,25 +38,27 @@
         <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
           <form id="contact_form" method="post" role="form" class="php-email-form">
             <div class="form-row">
+              <input type="hidden"  name="id" class="form-control" ></input>
+
               <div class="form-group col-md-6">
-                <label for="name">Your Name</label>
-                <input type="text" name="name"autocomplete="off" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                <label >Your Name</label>
+                <input type="text" name="m_name" autocomplete="off" class="form-control" required data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                 <div class="validate"></div>
               </div>
               <div class="form-group col-md-6">
-                <label for="name">Your Email</label>
-                <input type="email" class="form-control"autocomplete="off" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
+                <label >Your Email</label>
+                <input type="email" class="form-control"autocomplete="off" name="mail" required  data-rule="email" data-msg="Please enter a valid email" />
                 <div class="validate"></div>
               </div>
             </div>
             <div class="form-group">
-              <label for="name">Subject</label>
-              <input type="text" class="form-control"autocomplete="off" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+              <label>Subject</label>
+              <input type="text" class="form-control"autocomplete="off" name="subt" required data-rule="email" data-msg="Please enter a valid email" />
               <div class="validate"></div>
             </div>
             <div class="form-group">
-              <label for="name">Message</label>
-              <input class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us"autocomplete="off"></input>
+              <label >Message</label>
+              <input class="form-control" name="msg" rows="10" data-rule="required"requireddata-msg="Please write something for us"autocomplete="off"></input>
               <div class="validate"></div>
             </div>
             <div class="mb-3">
@@ -61,7 +66,7 @@
               <div class="error-message"></div>
               <div class="sent-message">Your message has been sent. Thank you!</div>
             </div>
-            <div class="text-center"><button type="button" class="btn btn-dark" onclick="send_msg()">Send Message</button></div>
+            <div class="text-center"><button type="submit" class="btn btn-dark" >Send Message</button></div>
           </form>
         </div>
 
@@ -69,25 +74,31 @@
 
     </div>
   </section>
+</body>
 
   <script>
+   
+   $("#contact_form").validate({
+  
+  submitHandler: function (form) {
     
-    $("section .contact").show();
+      $.post("rest/message", $("#contact_form").serialize()).done(function(){ 
+              toastr.success("Message sent");
+              $('#contact_modal form :input').val("");
+              
+          }).fail(function(){
+              toastr.error("message not sent"); 
+          })
+  
     
+  
     
-    function send_msg(){
-      
-      var msg = {
-            name:$('#contact_form input[name="name"]').val(),
-            email: $('#contact_form input[name="email"]').val(),
-            subject: $('#contact_form input[name="subject"]').val(),
-            message: $('#contact_form input[name="message"]').val()
-
-        }
-
-        window.sessionStorage.setItem("msg", JSON.stringify(msg));
-        toastr.success("Message sent")
-        $('#contact_modal :input').val("");
         
-    }
+  }
+  
+     
+     
+  })
+   
+   
   </script>

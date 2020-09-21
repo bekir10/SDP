@@ -1,7 +1,7 @@
-<html>
-    <body>
+
         
-        <section class="inbox">
+        <section class="inbox" >
+          <div class="container">
             <div class="section-title ">
                 <h2 style="margin-left: 50px;">Messages</h2>
               </div>
@@ -10,6 +10,7 @@
                 <table class="table" id="messages_table">
                     <thead>
                       <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Subject</th>
@@ -19,31 +20,48 @@
                       </tr>
                     </thead>
                     <tbody id="message_content">
-                    
                     </tbody>
                   </table>
-                
+                  <p style="text-align: center; color: red;"></p>
+
+                </div>  
     </section>
-    </body>
 </html>
 
 <script>
-    var n = sessionStorage.getItem("msg");
-    var msgs = JSON.parse(n);
 
 
-            var html=""
-
-           
-                html+='<tr><td>' + msgs.name + '</td>';
-                html+='<td>'  + msgs.email +'</td>';
-                html+='<td>' + msgs.subject + '</td>';
-                html+='<td>' + msgs.message + '</td>';
+$.get("rest/message",function(data) 
+        {
+          if (user.type =="admin") {
+            
+          
+            var html="";
+            for(var i = 0; i < data.length; i++)
+            {
+                html+='<tr><td>' + data[i].id + '</td>';
+                html+='<td>'  + data[i].name +'</td>';
+                html+='<td>' + data[i].email + '</td>';
+                html+='<td>' + data[i].subject + '</td>';
+                html+='<td>' + data[i].message + '</td>';
+                
                
+
+            }
+             $("#message_content").html(html);
+             
+          }else{
+            $("section p").html(" Admins only");
+            toastr.error("You are not admin")
+          }
+            
+        })
+           
+                
                 
                
 
             
-             $("#message_content").html(html);
+             
     
 </script>

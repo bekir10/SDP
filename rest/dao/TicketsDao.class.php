@@ -8,11 +8,11 @@ class TicketsDao extends BaseDao
         parent:: __construct($this->table);
     }
 
-    public function update_student($student, $student_id){        
+    public function update_ticket($ticket, $ticket_id){        
 
-        $entity[':id'] = $student_id;   
+        $entity[':id'] = $ticket_id;   
         $query= 'UPDATE '.  $this->table . ' SET ';
-        foreach ($student as $key => $value) {
+        foreach ($ticket as $key => $value) {
           $query .= $key . '=:' . $key . ', ';
           $entity[':' . $key] = $value;
         }
@@ -20,7 +20,7 @@ class TicketsDao extends BaseDao
         return $this->update($entity, $query);
       }
 
-      public function delete_student($ticket_id)
+      public function delete_ticket($ticket_id)
       {
         $entity[':id'] = $ticket_id;
         $query = "DELETE FROM " . $this->table ." WHERE id=:id";

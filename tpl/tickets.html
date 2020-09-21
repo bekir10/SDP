@@ -4,10 +4,10 @@
       color: red;
     }
     </style>
-<body>
+
     
 
-<section class="tickets">
+<section class="tickets" >
 <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ticket_modal">Add Ticket</button>
   
       <!-- Admin adding ticket -->
@@ -144,14 +144,14 @@
           </div>
       </div>
 
-      <button type="button" class="btn btn-dark" onclick="get_tickets()" >Tickets Table</button>
+      <button  type="button" class="btn btn-dark" onclick="get_tickets()" >Tickets Table</button>
       <button type="button" class="btn btn-dark" onclick="get_admins()" >Admins Table</button>
 
 
     <br>
     <br>
               <!-- ticket table-->
-
+<div class="ex1">
     <table class="table" id="ticket_table">
         <thead>
           <tr>
@@ -169,7 +169,7 @@
         </tbody>
       </table>
 
-
+    </div>
       <!-- admin table-->
 
       <table class="table" id="admin_table" style="display: none;" >
@@ -185,6 +185,7 @@
         
         </tbody>
       </table>
+                  <p style="text-align: center; color: red;"></p>
 
 
           <!-- info modal-->
@@ -214,17 +215,16 @@
       
 </section>
 
-</body>
 </html>
 <script>
 
+get_tickets()
       /*----------------------------add admin ------------------------ */
-
-
+      
 $("#add_admin").validate({
-
+  
 submitHandler: function (form) {
-
+  if(user.type =="admin"){
     $.post("rest/AdminRegister", $("#add_admin").serialize()).done(function(){ //adding ticket
             toastr.success("Admin added succeffuly");
             $('#admin_modal form :input').val("");
@@ -233,11 +233,14 @@ submitHandler: function (form) {
         }).fail(function(){
             toastr.error("Admin not added"); 
         })
-  
 
-    
-      }
-     
+  }else{
+    toastr.error("You are not admin")
+  }
+
+  
+      
+}
 
    
    
@@ -248,9 +251,9 @@ submitHandler: function (form) {
   $("#add_ticket").validate({
 
 submitHandler: function (form) {
-
+  if(user.type =="admin"){
     $.post("rest/ticket", $("#add_ticket").serialize()).done(function(){ //adding ticket
-            toastr.success("Student added succeffuly");
+            toastr.success("Ticket added succeffuly");
             $('#ticket_modal form :input').val("");
               $("#ticket_modal").modal("toggle");
             get_tickets();
@@ -258,7 +261,9 @@ submitHandler: function (form) {
             toastr.error("Ticket not added"); 
         })
   
-
+      }else{
+    toastr.error("You are not admin")
+  }
     
       }
      
@@ -271,30 +276,48 @@ submitHandler: function (form) {
 
 function get_admins()
     {
-        $.get("rest/admins",function(data) 
-        {
+      if (user.type == "admin") {
+        $.ajax({
+   url: "rest/admins",
+   type: "GET",
+   beforeSend: function(xhr){
+     xhr.setRequestHeader('ADMIN', get_logged_user_id());
+   },
+   success: function(data) {
+    
             var html="";
             for(var i = 0; i < data.length; i++)
             {
                 html+='<tr><td>' + data[i].id + '</td>';
                 html+='<td>'  + data[i].email +'</td>';
                 html+='<td>' + data[i].password + '</td>';
-               
-                
-                
-
             }
              $("#admin_content").html(html);
              $("#ticket_table").hide();
              $("#admin_table").show();
             
-        })
+        
+   },
+   error: function(error){
+     if (error.status == 403){
+       window.location="login.html";
+     }else{
+       toastr.error(error.responseText)
+     }
+   }
+});
+    }else{
+      toastr.error("You are not admin")
+      $("section p").html(" Admins only");
     };
+      }
+     
 
 
 /*----------------------------get tickets ------------------------ */
 function get_tickets()
     {
+      if (user.type == "admin") {
         $.get("rest/tickets",function(data) 
         {
             var html="";
@@ -315,9 +338,18 @@ function get_tickets()
              $("#ticket_content").html(html);
              $("#admin_table").hide();
              $("#ticket_table").show();
-
+             
+             if (html == "") {
+              toastr.error("No tickets available");
+             }
             
         })
+      } else {
+        toastr.error("You are not admin");
+      }
+      
+
+        
     };
 
 /*----------------------------info button ------------------------ */
@@ -379,11 +411,11 @@ function get_tickets()
     
 
         $.post("rest/update", $("#edit_form").serialize()).done(function () { //update ticket
-         toastr.success("Student is updated");
+         toastr.success("Ticket is updated");
           $("#edit_modal").modal("toggle");
          get_tickets();
           }).fail(function () {
-           toastr.error("Student is not updated");
+           toastr.error("Ticket is not updated");
          })
 
 }});

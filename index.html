@@ -9,47 +9,29 @@
   <meta content="" name="descriptison">
   <meta content="" name="keywords">
 
-  <!-- Favicons -->
   
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
-
   <link rel="stylesheet" href="spapp-master/assets/css/spapp.css">
-
-  
-
-  <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   
 
-  <!-- =======================================================
-  * Template Name: iPortfolio - v1.3.0
-  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  
 </head>
 
 <body>
 
-  <!-- ======= Mobile nav toggle button ======= -->
-  <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
-
-  <!-- ======= Header ======= -->
+  <button type="button" class="mobile-nav-toggle d-xl-none">x<i  class="icofont-navigation-menu"></i></button>
+  
   <header id="header">
     <div class="d-flex flex-column">
-<br>
-      <div class="profile">
-        <h1 class="text-light"><a href="">TPMS</a></h1>
-        <br>  
-        <div id="logged_user" ><a class="logged" style="color: white; margin-left: 10px;"></a></div>
+    <br>
+    <div class="profile">
+    <h1 class="text-light"><a>TPMS</a></h1>
+    <br>  
+    <div id="logged_user" ><a class="logged" style="color: white; margin-left: 10px;"></a></div>
        
       </div>
 
@@ -57,15 +39,15 @@
         <ul>
           <li><a href="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
           <li><a class="only-admin" href="#tickets"><i class="bx bx-file-blank"></i> <span>Tickets</span></a></li>
-          <li><a href="#user_ticketsPG" class="only-users"><i class="bx bx-file-blank"></i> <span>Tickets</span></a></li>
+          <li><a class="only-users" href="#user_ticketsPG" class="only-users"><i class="bx bx-file-blank"></i> <span>Tickets</span></a></li>
 
-         <!-- <li><a href="#payment"><i class="bx bx-server"></i> Payment</a></li>-->
           <li><a class="only-users" href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
           <li><a class="only-admin" href="#inbox"><i class="bx bx-envelope"></i> Inbox</a></li>
           <li><a href="" onclick="logout()"><i class="bx" ></i> Logout</a></li>
 
         </ul>
-      </nav><!-- .nav-menu -->
+      </nav>
+    </div>
 
       </header>
       <main id="spapp" role="main">
@@ -76,26 +58,20 @@
         <section id="contact"></section>
       </main>
 
-  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-
-  <!-- Vendor JS Files -->
-  
+      
+      <script src="/assets/js/main.js"></script>
   <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
-
+  <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
   <script src="spapp-master/assets/js/jquery.spapp.js"></script>
   <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
   <script src="spapp-master/assets/js/custom.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  
 
 
-  <!-- Template Main JS File -->
 
 </body>
 
@@ -115,16 +91,12 @@ if (get_logged_user_id()){
 
       }else if(user.type == "user"){
         $("#logged_user a").append(user.email)
-
         toastr.success("Welcome " +user.type);
         $(".only-admin").hide();
         $(".only-users").show();
       }
-      
-      
     }else{
       window.location = "login.html";
-
     }
 
 
@@ -142,14 +114,16 @@ if (get_logged_user_id()){
       }
     }
 
+
     function logout(){
       window.localStorage.clear();
     }
 
-   $(document).on('click', '.mobile-nav-toggle', function(e) {
+    $(document).on('click', '.mobile-nav-toggle', function(e) {
     $('body').toggleClass('mobile-nav-active');
     $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
   });
+
   $(document).click(function(e) {
     var container = $(".mobile-nav-toggle");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
@@ -157,7 +131,8 @@ if (get_logged_user_id()){
         $('body').removeClass('mobile-nav-active');
         $('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
       }
-    }});
+    }
+  });
 
    
 </script>
